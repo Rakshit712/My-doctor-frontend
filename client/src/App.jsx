@@ -7,7 +7,7 @@ import LoginPage from "./Pages/Login";
 import DoctorRegister from "./Pages/DoctorRegister";
 import PatientRegister from "./Pages/PatientRegister";
 import Profile from "./Pages/Patient/Profile";
-import ProfilePage from "./Pages/Patient/SampleProfile";
+
 import ChangePassword from "./Pages/Patient/ChangePassword";
 
 
