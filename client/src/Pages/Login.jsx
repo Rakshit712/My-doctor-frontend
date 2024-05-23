@@ -86,7 +86,7 @@ const LoginPage = () => {
                   className="w-full"
                   label="Email or Mobile Number"
                   id="email"
-                  type="email"
+                  
                   variant="outlined"
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
