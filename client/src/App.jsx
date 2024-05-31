@@ -9,6 +9,12 @@ import PatientRegister from "./Pages/PatientRegister";
 import Profile from "./Pages/Patient/Profile";
 
 import ChangePassword from "./Pages/Patient/ChangePassword";
+import PatientAppointment from "./Pages/Patient/PatientAppointment";
+import DoctorProfile from "./Pages/Doctor/DoctorProfile";
+import Qualification from "./Pages/Doctor/Qualification";
+import Experience from "./Pages/Doctor/Experience";
+import DoctorDashboard from "./Pages/Doctor/DoctorDashboard";
+import SpecialityPage from "./Pages/SpecialityPage";
 
 
 function App() {
@@ -23,8 +29,13 @@ function App() {
         <Route path="/doctorRgister" element = {<DoctorRegister/>}/>
         <Route path="/patientprofile" element = {<Profile/>}/>
         <Route path="/changePassword" element = {<ChangePassword/>}/>
-
-      </Routes>
+        <Route path="/patientAppointment" element ={<PatientAppointment/>}/>
+        <Route path="/doctorProfile" element={<DoctorProfile/>}/>
+        <Route path="/qualification" element={<Qualification/>}/>
+        <Route path = "/experience" element = {<Experience/>}/>
+        <Route path="/doctorDashboard" element= {<DoctorDashboard/>}/>
+        <Route path = "/specialities" element={<SpecialityPage/>}/>
+       </Routes>
     </BrowserRouter>
     </>
   );

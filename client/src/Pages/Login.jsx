@@ -60,7 +60,7 @@ const LoginPage = () => {
             alt=""
           />
         </div>
-        <div className="flex flex-col justify-center items-center lg:w-[496px] lg:h-[341px] gap-10  sm:mt-[-300px] sm:mr-[100px] p-8 sm:p-0 ">
+        <div className="flex flex-col justify-center items-center lg:w-[496px] lg:h-[341px] gap-4  sm:mt-[-300px] sm:mr-[100px] p-8 sm:p-0 ">
           <div className="flex w-[311px] sm:w-[450px] ">
             <NavLink to={"/login"}>
               <button className="border sm:w-[150px] p-6 sm:p-3">LOGIN</button>
@@ -76,12 +76,15 @@ const LoginPage = () => {
               <button className="border sm:w-[150px] p-3">DOCTOR SIGNUP</button>
             </NavLink>
           </div>
-          <div className=" w-[311px] h-[358px] sm:w-full sm:max-w-md  ">
-            {error && <Alert severity="error">{error}</Alert>}
+          <div className="  h-[358px] p-3 sm:w-full sm:max-w-md  ">
+           
             <form
               onSubmit={handleSubmit}
-              className="bg-white rounded px-8 pt-6 pb-8 mb-4 border"
+              className="bg-white rounded px-8 pt-4 pb-8 mb-4 border"
             >
+               
+            {error && <Alert sx={{mb:4, mx:3}} severity="error">{error}</Alert>}
+  
               <div className="mb-8">
                 <TextField
                   className="w-full"
