@@ -27,7 +27,7 @@ const thisYear = new Date().getFullYear();
     { value: 11, label: "12|December" },
   ];
 
-function PaymentDetails(back) {
+function PaymentDetails({back}) {
     const [cardNumber, setCardNumber] = useState("");
     const [securityCode, setSecurityCode] = useState("");
     const [expiryYear, setExpiryYear] = useState(thisYear);
