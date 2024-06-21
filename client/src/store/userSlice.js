@@ -7,14 +7,17 @@ export const changePassword = createAsyncThunk(
     async (body) => {
         const data = localStorage.getItem('data');
         const token = JSON.parse(data).token;
-        console.log(token)
+        
         const headers = {
             token: `Bearer ${token}`,
             'Content-Type': 'application/json'
         };
 
         id = JSON.parse(data).userId
-        const request = await axios.patch(`https://my-doctors-app.onrender.com/api/auth/patient/${id}`,body,{headers})
+        const request = await axios.patch(`https://my-doctors-app.onrender.com/api/auth/patient/${id}`,body,{headers});
+        const response = await request.data;
+        console.log(response)
+        return response;
     }
 )
 
@@ -74,7 +77,7 @@ const userSlice = createSlice({
             .addCase(userLogin.pending, (state) => {
                 state.loading = true;
                 state.user = null,
-                    state.error = null
+                state.error = null
                 state.isLoggedIn = false;
             })
             .addCase(userLogin.fulfilled, (state, action) => {
@@ -139,7 +142,10 @@ const userSlice = createSlice({
             .addCase(logout.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
-            });
+            })
+            
+            
+           
     }
 })
 

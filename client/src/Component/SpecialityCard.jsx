@@ -14,7 +14,7 @@ const SpecialityCard = ({ imageUrl, name }) => {
         
        
       }}
-      onClick={() => navigate(`/`)}
+      onClick={()=>navigate(`/search?sp=${name}`)}
     >
       <CardContent sx={{ textAlign: "center",
         display:"flex",

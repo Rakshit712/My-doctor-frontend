@@ -6,37 +6,16 @@ import {
   Box,
   Button,
   Container,
-  
   Grid,
   TextField,
   Typography,
 } from "@mui/material";
-import { Close, Done, TextFieldsOutlined } from "@mui/icons-material";
+import { Close, Done } from "@mui/icons-material";
 import Footer from "../../Component/Footer";
 import { MatchPassword, validPassword } from "../../util/validator";
-import { useDispatch } from "react-redux";
-import { changePassword } from "../../store/userSlice";
+import axios from "axios"; // Import axios
 
 function ChangePassword() {
-    const dispatch = useDispatch();
-    
-    const handleSubmit= ()=>{
-        dispatch(changePassword({oldPassword,newPassword}))
-    }
-  const passwordError = () => {
-    if (
-      matchPassword &&
-      validLowercase &&
-      ValidUpperCase &&
-      validSpecialCharacter &&
-      validNumber &&
-      validLength
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  };
   const [matchPassword, setMatchPassword] = useState(false);
   const [validLowercase, setValidLowerCase] = useState(false);
   const [ValidUpperCase, setValidUpperCase] = useState(false);
@@ -50,10 +29,52 @@ function ChangePassword() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordErrorMsg, setPasswordErrorMsg] = useState(false);
 
-  const disabledSubmit = !oldPassword || !passwordError();
+  const handleSubmit = async () => {
+    const body = { oldPassword, newPassword };
+    const data = localStorage.getItem('data');
+    if (data) {
+      const parsedData = JSON.parse(data);
+      const token = parsedData.token;
+      console.log(parsedData)
+      const id = parsedData.user._id;
+
+      const headers = {
+        token: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      };
+
+      console.log(id)
+      try {
+        const response = await axios.patch(`https://my-doctors-app.onrender.com/api/auth/patient/${id}`, body, { headers });
+        setSuccess("Password changed successfully!");
+        setError("");
+      } catch (error) {
+        setError("Failed to change password");
+        setSuccess("");
+        console.error(error);
+      }
+    } else {
+      setError("User data not found");
+      setSuccess("");
+    }
+  };
+
+  const passwordError = () => {
+    return (
+      matchPassword &&
+      validLowercase &&
+      ValidUpperCase &&
+      validSpecialCharacter &&
+      validNumber &&
+      validLength
+    );
+  };
+
+  const disabledSubmit = !oldPassword || !newPassword || !confirmPassword || !passwordError();
+
   return (
     <>
-      <div className="bg-gray-50  ">
+      <div className="bg-gray-50">
         <Header />
         <Sidebar />
         <Container>
@@ -61,23 +82,12 @@ function ChangePassword() {
             <Grid item xs={4} sx={{ m: "auto" }}>
               {error && <Alert severity="error">{error}</Alert>}
               {success && <Alert severity="success">{success}</Alert>}
-              <Typography
-                variant="h4"
-                sx={{ color: "#3f51b5", fontWeight: "bold" }}
-              >
+              <Typography sx={{ color: "#3f51b5", fontSize: 40, fontWeight: "bold" }}>
                 Change Password
               </Typography>
 
               <TextField
-                sx={{
-                  mt: 3,
-                  width: {
-                    xs: 200,
-                    sm: 300,
-                    md: 400,
-                    lg: 500,
-                  },
-                }}
+                sx={{ mt: 3, width: { xs: 200, sm: 300, md: 400, lg: 500 } }}
                 id="outlined-basic"
                 type="password"
                 label="Current Password"
@@ -89,15 +99,7 @@ function ChangePassword() {
               />
 
               <TextField
-                sx={{
-                  mt: 3,
-                  width: {
-                    xs: 200,
-                    sm: 300,
-                    md: 400,
-                    lg: 500,
-                  },
-                }}
+                sx={{ mt: 3, width: { xs: 200, sm: 300, md: 400, lg: 500 } }}
                 id="outlined-basic"
                 label="New Password"
                 type="password"
@@ -124,37 +126,25 @@ function ChangePassword() {
                 }
                 variant="outlined"
               />
-              {passwordErrorMsg && (
-                <span style={{ color: "red" }}>
-                  New Password cannot be empty!
-                </span>
-              )}
+
               <TextField
-                sx={{
-                  mt: 3,
-                  width: {
-                    xs: 200,
-                    sm: 300,
-                    md: 400,
-                    lg: 500,
-                  },
-                }}
+                sx={{ mt: 3, width: { xs: 200, sm: 300, md: 400, lg: 500 } }}
                 id="outlined-basic"
                 label="Confirm Password"
                 type="password"
                 fullWidth
                 required
                 value={confirmPassword}
-                error={passwordErrorMsg}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 onKeyUp={() =>
                   MatchPassword(newPassword, confirmPassword, setMatchPassword)
                 }
                 variant="outlined"
               />
+
               <Box sx={{ my: 3 }}>
                 <Box sx={{ display: "flex" }}>
-                  {validLowercase == true ? (
+                  {validLowercase ? (
                     <Done sx={{ color: "green" }} />
                   ) : (
                     <Close sx={{ color: "red" }} />
@@ -163,28 +153,25 @@ function ChangePassword() {
                 </Box>
 
                 <Box sx={{ display: "flex" }}>
-                  {ValidUpperCase == true ? (
+                  {ValidUpperCase ? (
                     <Done sx={{ color: "green" }} />
                   ) : (
                     <Close sx={{ color: "red" }} />
                   )}
-                  <span style={{ marginLeft: 5 }}> A Uppercase letter</span>
+                  <span style={{ marginLeft: 5 }}>A Uppercase letter</span>
                 </Box>
 
                 <Box sx={{ display: "flex" }}>
-                  {validSpecialCharacter == true ? (
+                  {validSpecialCharacter ? (
                     <Done sx={{ color: "green" }} />
                   ) : (
                     <Close sx={{ color: "red" }} />
                   )}
-                  <span style={{ marginLeft: 5 }}>
-                    {" "}
-                    At least one special character{" "}
-                  </span>
+                  <span style={{ marginLeft: 5 }}>At least one special character</span>
                 </Box>
 
                 <Box sx={{ display: "flex" }}>
-                  {validNumber == true ? (
+                  {validNumber ? (
                     <Done sx={{ color: "green" }} />
                   ) : (
                     <Close sx={{ color: "red" }} />
@@ -193,16 +180,16 @@ function ChangePassword() {
                 </Box>
 
                 <Box sx={{ display: "flex" }}>
-                  {validLength == true ? (
+                  {validLength ? (
                     <Done sx={{ color: "green" }} />
                   ) : (
                     <Close sx={{ color: "red" }} />
                   )}
-                  <span style={{ marginLeft: 5 }}>At least eight character</span>
+                  <span style={{ marginLeft: 5 }}>At least eight characters</span>
                 </Box>
 
                 <Box sx={{ display: "flex" }}>
-                  {matchPassword == true ? (
+                  {matchPassword ? (
                     <Done sx={{ color: "green" }} />
                   ) : (
                     <Close sx={{ color: "red" }} />
@@ -210,6 +197,7 @@ function ChangePassword() {
                   <span style={{ marginLeft: 5 }}>Passwords must match</span>
                 </Box>
               </Box>
+
               <Button
                 type="submit"
                 variant="contained"

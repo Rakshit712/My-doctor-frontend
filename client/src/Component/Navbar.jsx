@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import SwiperComponent from "./Swiper";
 import Avatar from "@mui/material/Avatar";
@@ -12,6 +12,16 @@ import UserIcon from "./ui/userIcon";
 import AppointmentIcon from "./ui/AppointmentIcon";
 import LogoutIcon from "./ui/LogoutIcon";
 import { logout } from "../store/userSlice";
+import {
+  Autocomplete,
+  FormControl,
+  Grid,
+  IconButton,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
+import { Search } from "@mui/icons-material";
 
 const buttons = [
   { text: "Dementia" },
@@ -29,10 +39,28 @@ const buttons = [
 ];
 
 const Header = () => {
+  const [searchSpeciality, setSearchSpeciality] = useState(null);
+  const specialities = [
+    "Gastroenterology",
+    "Child & Adolescentc Psychiatry",
+    "Endocrinology & Diabetology",
+    "Bone Marrow",
+    "Anesthesiology",
+  ];
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
+  const [searchValue, setSearchValue] = useState("");
+
+  const handleSearch = () => {
+    navigate(`/search?sp=${searchSpeciality}&q=${searchValue}`);
+  };
+
+  const handleNameSearch = () => {
+    navigate(`/search?q=${searchValue}`);
+  }
   const handleLogOut = () => {
     localStorage.removeItem("data");
     dispatch(logout());
@@ -115,19 +143,72 @@ const Header = () => {
 
           {/* Search section */}
           <div className="flex justify-center sm:w-auto bg-gray-100">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="px-2 sm:px-4 sm:py-2 border border-r-0 w-[120px] sm:w-auto border-none bg-gray-100"
-            />
-            <input
-              type="text"
-              placeholder="Search a Doctor..."
-              className="px-4 py-2 border focus:outline-none sm:w-auto border-none bg-gray-100"
-            />
-            <div className="pt-2 pr-2">
-              <FaSearch className="bg-gray-100 text-gray-400 text-xl" />
-            </div>
+            <Grid
+              item
+              xs={12}
+              lg={4}
+              order={{ xs: 4, lg: 3 }}
+              sx={{
+                backgroundColor: "#fafafa",
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+              }}
+            >
+              <Autocomplete
+                aria-label="Select a service"
+                freeSolo
+                id="tags-outlined"
+                options={specialities.map((option) => option)}
+                sx={{ width: 250, border: "none" }}
+                value={
+                  window.location.pathname === "/search" ? searchSpeciality : ""
+                }
+                onChange={(event, value) => {
+                  setSearchSpeciality(value);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    placeholder="Select a Service"
+                    variant="standard"
+                    InputProps={{
+                      ...params.InputProps,
+                      disableUnderline: true,
+                      
+                      
+                    }}
+                    onKeyUp={(e) => {
+                      if (e.key === "Enter") {
+                        handleSearch();
+                      }
+                    }}
+                  />
+                )}
+              />
+          
+              <TextField
+                variant="standard"
+                placeholder="Search Doctors"
+                autoComplete="off"
+                InputProps={{
+                  
+                  disableUnderline: true,
+                }}
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                onKeyUp={(e) => {
+                  if (e.key === "Enter") {
+                    handleSearch();
+                  }
+                }}
+                
+                sx={{ p: 1 }}
+              />
+              <IconButton onClick={handleSearch}>
+                            <Search />
+                          </IconButton>
+            </Grid>
           </div>
           {isLoggedIn ? (
             <button onClick={() => setIsOpen(!isOpen)}>
@@ -140,16 +221,16 @@ const Header = () => {
                   <div
                     id="attendee-modal-content"
                     className="flex flex-col gap-1"
-                   
                   >
                     <List className="w-[220px]">
-                      <NavLink to={'/patientprofile'}>
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <UserIcon />
-                          <ListItemText primary="Account Setting" />
-                        </ListItemButton>
-                      </ListItem></NavLink>
+                      <NavLink to={"/patientprofile"}>
+                        <ListItem disablePadding>
+                          <ListItemButton>
+                            <UserIcon />
+                            <ListItemText primary="Account Setting" />
+                          </ListItemButton>
+                        </ListItem>
+                      </NavLink>
                       <ListItem disablePadding>
                         <ListItemButton>
                           <AppointmentIcon />

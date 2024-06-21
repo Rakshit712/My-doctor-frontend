@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Header from "../../Component/Navbar";
 import Sidebar from "../../Component/Sidebar";
+import Footer from "../../Component/Footer"
 import {
   Autocomplete,
   Avatar,
@@ -30,7 +31,7 @@ function DoctorProfile() {
       <div className="bg-gray-50">
         <Header />
         <Sidebar />
-        <div className=" ml-[270px]">
+        <div className=" ml-[270px] min-h-screen">
           <Grid container>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12} className="p-5">
               <Grid item sx={12}>
@@ -168,6 +169,7 @@ function DoctorProfile() {
             </Grid>
           </Grid>
         </div>
+        <Footer/>
       </div>
     </>
   );

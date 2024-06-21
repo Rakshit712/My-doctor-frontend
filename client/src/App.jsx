@@ -15,6 +15,9 @@ import Qualification from "./Pages/Doctor/Qualification";
 import Experience from "./Pages/Doctor/Experience";
 import DoctorDashboard from "./Pages/Doctor/DoctorDashboard";
 import SpecialityPage from "./Pages/SpecialityPage";
+import Search from "./Pages/Search";
+import DoctorPage from "./Pages/Doctor/DoctorPage";
+import BookAppoinment from "./Pages/AppointmentPages/BookAppoinment";
 
 
 function App() {
@@ -35,6 +38,9 @@ function App() {
         <Route path = "/experience" element = {<Experience/>}/>
         <Route path="/doctorDashboard" element= {<DoctorDashboard/>}/>
         <Route path = "/specialities" element={<SpecialityPage/>}/>
+        <Route path="/search" element={<Search/>}/>
+        <Route path ="/doctor" element = {<DoctorPage/>}/>
+        <Route path= "/bookAppointment" element = {<BookAppoinment/>}/>
        </Routes>
     </BrowserRouter>
     </>

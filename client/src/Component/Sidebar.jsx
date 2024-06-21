@@ -51,7 +51,7 @@ const Sidebar = () => {
   return (
     <>
       {role === "doctor" ? (
-        <div className="fixed top-[130px] left-0 bottom-[1px] z-10 w-[250px] border-r-2 bg-white hidden lg:block ">
+        <div className="fixed top-[139px] left-0 bottom-[1px] z-10 w-[250px] border-r-2 bg-white hidden lg:block ">
           <div className="pt-2 flex flex-col gap-5">
             <>
             <NavLink to={"/doctorDashboard"}>
@@ -113,7 +113,7 @@ const Sidebar = () => {
             <> <NavLink to={'/'}>
               <div className="flex bg-gray-200 h-12 hover:bg-gray-200 p-2 gap-5">
                 <IoMdPerson className="text-lg ml-4 text-gray-600" />
-                <h1 className="ml-2">Doctors</h1>
+                <h2 className="ml-2">Doctors</h2>
               </div>
               </NavLink>
               <NavLink to={"/specialities"}>

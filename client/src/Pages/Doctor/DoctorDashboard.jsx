@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Header from "../../Component/Navbar";
 import Sidebar from "../../Component/Sidebar";
 import {
-  Autocomplete,
   Box,
   Button,
   FormControl,
@@ -61,7 +60,7 @@ function DoctorDashboard() {
       <div className="bg-gray-50">
         <Header/>
         <Sidebar />
-        <div className="ml-[270px] mt-3">
+        <div className="ml-[270px] min-h-screen mt-3">
           <Grid container spacing={3}>
             <Grid item xs={6}>
               <Box sx={{ bgcolor: "white", p: 2 }}>
@@ -212,7 +211,7 @@ function DoctorDashboard() {
 
             <Grid
               container
-              sx={{ backgroundColor: "white", p: 8, ml: 3, mt: 2, p: 6, mr: 2 }}
+              sx={{ backgroundColor: "white", p: 8, ml: 3, mt: 2,  mr: 2 }}
             >
               <Grid item xs={6} sx={{ my: "auto", p: 5 }}>
                 <Typography sx={{ fontSize: 20 }}>
